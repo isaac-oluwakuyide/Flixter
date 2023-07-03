@@ -9,6 +9,7 @@
 #import "MovieViewController.h"
 #import "MovieGridCollectionCell.h"
 #import "UIKit+AFNetworking.h"
+#import "DetailsViewController.h"
 
 @interface MovieGridViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -89,15 +90,22 @@
 
 
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    UICollectionViewCell *tappedCell = sender;
+    NSIndexPath *indexPath = [self.movieGridCollectionView indexPathForCell:tappedCell];
+    
+    NSDictionary *movie = self.posts[indexPath.row];
+    
+    //Get the new view controller using [segue destinationViewController].
+    //Pass the selected object to the new view controller.
+    DetailsViewController *detailsVC = [segue destinationViewController];
+    detailsVC.movie = movie;
 }
-*/
+
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
