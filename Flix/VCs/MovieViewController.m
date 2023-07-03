@@ -10,10 +10,12 @@
 #import "UIKit+AFNetworking.h"
 #import "DetailsViewController.h"
 
-@interface MovieViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface MovieViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating>
 @property (strong, nonatomic) NSArray *posts;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) UISearchController *searchController;
+@property (strong, nonatomic) NSArray *filteredPosts;
 
 @end
 
@@ -25,12 +27,25 @@
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     
+    //set up the search bar
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.navigationItem.titleView = self.searchController.searchBar;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.searchController.searchResultsUpdater = self;
+    
+    // Sets this view controller as presenting view controller for the search interface
+    self.definesPresentationContext = YES;
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
     self.tableView.rowHeight = 150;
     [self fetchDictionary];
     [refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:refreshControl atIndex:0];
+    
+
+    
     
 }
 
@@ -51,6 +66,7 @@
             
             // Get the array of movies
             self.posts = dataDictionary[@"results"];
+            self.filteredPosts = self.posts;
             
             // Reload your table view data
             [self.tableView reloadData];
@@ -106,7 +122,7 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     MovieCell *movieCell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell" forIndexPath:indexPath];
     
-    NSDictionary *movie = self.posts[indexPath.row];
+    NSDictionary *movie = self.filteredPosts[indexPath.row];
     
     if (movie)  {
         //set up the imageView
@@ -127,9 +143,31 @@
     return [baseURLstring stringByAppendingString:posterPath];
 }
 
-
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.posts.count;
+    return self.filteredPosts.count;
+}
+
+- (void)updateSearchResultsForSearchController:(nonnull UISearchController *)searchController {
+    NSString *searchText = searchController.searchBar.text;
+    
+    if(searchText)  {
+        //if statement just in case the search text is all the way backspaced, checks whether a movie title contains searchText
+        if (searchText.length > 0)    {
+            NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
+                NSString *movieTitle = evaluatedObject[@"title"];
+                BOOL contain = [movieTitle containsString:searchText];
+                NSString *logString = [NSString stringWithFormat:@"%@ contains string? %d", movieTitle, contain];
+                return [movieTitle containsString:searchText];
+            }];
+            self.filteredPosts = [self.posts filteredArrayUsingPredicate:predicate];
+        }
+        else    {
+            self.filteredPosts = self.posts;
+        }
+        
+        [self.tableView reloadData];
+    }
+    [self.tableView reloadData];
 }
 
 @end

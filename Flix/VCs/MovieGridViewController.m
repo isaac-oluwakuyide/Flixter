@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSArray *posts;
 
 
+
 @end
 
 @implementation MovieGridViewController
@@ -25,6 +26,9 @@
     // Do any additional setup after loading the view.
     self.movieGridCollectionView.dataSource = self;
     self.movieGridCollectionView.delegate = self;
+    
+    //set up the search bar
+    
     
 
     
