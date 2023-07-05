@@ -17,12 +17,10 @@ The following functionality was implemented:
 
 - User can tap a poster in the collection view to see a detail screen of that movie
 - User can search for a movie.
+- User can view a movie trailer by clicking on the movie backdrop image. 
 - [ ] All images fade in as they are loading.
 - [ ] User can view the large movie poster by tapping on a cell.
 - [ ] For the large poster, load the low resolution image first and then switch to the high resolution image when complete.
-- [ ] Customize the selection effect of the cell.
-- [ ] Customize the navigation bar.
-- [ ] Customize the UI.
 - [ ] Run your app on a real device.
 
 
@@ -35,7 +33,12 @@ Here's a walkthrough of implemented user stories:
 GIF created with [Kap](https://getkap.co/).
 
 ## Notes
-The challenges I encountered whilst building this app was configuring the Table and Collection Views and refatoring code as I added features on top of the app. It was also difficult to create the search bar and debug displaying search results.
+### Challenges During Building
+- Configuring Table and Collection Views
+- Refactoring code while adding features
+- Filtering search results with the search bar
+- Creating the API request for the movie trailer
+
 
 ## Credits
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) - networking task library

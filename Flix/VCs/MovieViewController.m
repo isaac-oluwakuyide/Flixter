@@ -43,10 +43,6 @@
     [self fetchDictionary];
     [refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:refreshControl atIndex:0];
-    
-
-    
-    
 }
 
 - (void) fetchDictionary{
@@ -155,8 +151,6 @@
         if (searchText.length > 0)    {
             NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
                 NSString *movieTitle = evaluatedObject[@"title"];
-                BOOL contain = [movieTitle containsString:searchText];
-                NSString *logString = [NSString stringWithFormat:@"%@ contains string? %d", movieTitle, contain];
                 return [movieTitle containsString:searchText];
             }];
             self.filteredPosts = [self.posts filteredArrayUsingPredicate:predicate];

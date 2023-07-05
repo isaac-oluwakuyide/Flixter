@@ -22,6 +22,8 @@
 		BB91EDB02A4FDC0D00DC79C9 /* FlixUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BB91EDAF2A4FDC0D00DC79C9 /* FlixUITestsLaunchTests.m */; };
 		BBF982C32A5168AE007BD29B /* MovieGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBF982C22A5168AE007BD29B /* MovieGridViewController.m */; };
 		BBF982C82A52B711007BD29B /* MovieGridCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BBF982C72A52B711007BD29B /* MovieGridCollectionCell.m */; };
+		BBF982CA2A5499BD007BD29B /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBF982C92A5499BD007BD29B /* WebKit.framework */; };
+		BBF982CD2A54A07B007BD29B /* TrailerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBF982CC2A54A07B007BD29B /* TrailerViewController.m */; };
 		C1CD28CB19AAE4DB1DDE5BA2 /* Pods_FlixTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BED6D094C481CD125A1EF04 /* Pods_FlixTests.framework */; };
 		C4580740A91911113BC75D29 /* Pods_Flix_FlixUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A389762C46D5FDA693392430 /* Pods_Flix_FlixUITests.framework */; };
 /* End PBXBuildFile section */
@@ -77,6 +79,9 @@
 		BBF982C22A5168AE007BD29B /* MovieGridViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieGridViewController.m; sourceTree = "<group>"; };
 		BBF982C62A52B711007BD29B /* MovieGridCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MovieGridCollectionCell.h; sourceTree = "<group>"; };
 		BBF982C72A52B711007BD29B /* MovieGridCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieGridCollectionCell.m; sourceTree = "<group>"; };
+		BBF982C92A5499BD007BD29B /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		BBF982CB2A54A07B007BD29B /* TrailerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrailerViewController.h; sourceTree = "<group>"; };
+		BBF982CC2A54A07B007BD29B /* TrailerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrailerViewController.m; sourceTree = "<group>"; };
 		DE207FB3D53FF393ECF2C821 /* Pods_Flix.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Flix.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -85,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBF982CA2A5499BD007BD29B /* WebKit.framework in Frameworks */,
 				A0DAF5F311EFA877F0C20ED7 /* Pods_Flix.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,6 +130,7 @@
 		6AFB676DED99E2167CFCA9B6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BBF982C92A5499BD007BD29B /* WebKit.framework */,
 				DE207FB3D53FF393ECF2C821 /* Pods_Flix.framework */,
 				A389762C46D5FDA693392430 /* Pods_Flix_FlixUITests.framework */,
 				7BED6D094C481CD125A1EF04 /* Pods_FlixTests.framework */,
@@ -191,6 +198,8 @@
 		BBF982C42A52B5D7007BD29B /* VCs */ = {
 			isa = PBXGroup;
 			children = (
+				BBF982CB2A54A07B007BD29B /* TrailerViewController.h */,
+				BBF982CC2A54A07B007BD29B /* TrailerViewController.m */,
 				BBF982C12A5168AE007BD29B /* MovieGridViewController.h */,
 				BBF982C22A5168AE007BD29B /* MovieGridViewController.m */,
 				BB49F73D2A4FE95800A4F40F /* MovieViewController.h */,
@@ -457,6 +466,7 @@
 				BB91ED8C2A4FDC0B00DC79C9 /* SceneDelegate.m in Sources */,
 				BBF982C32A5168AE007BD29B /* MovieGridViewController.m in Sources */,
 				BBF982C82A52B711007BD29B /* MovieGridCollectionCell.m in Sources */,
+				BBF982CD2A54A07B007BD29B /* TrailerViewController.m in Sources */,
 				BB49F73F2A4FE95800A4F40F /* MovieViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
