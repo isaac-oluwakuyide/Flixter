@@ -27,7 +27,7 @@ The following functionality was implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://imgur.com/a/d3ce66E.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+[Video Walkthrough](https://imgur.com/a/d3ce66E.gif)
 
 
 ## Notes
