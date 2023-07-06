@@ -27,9 +27,8 @@ The following functionality was implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/a/x7gPGfD' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://imgur.com/a/d3ce66E' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-GIF created with [Kap](https://getkap.co/).
 
 ## Notes
 ### Challenges During Building
