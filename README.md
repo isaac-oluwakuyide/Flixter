@@ -27,7 +27,7 @@ The following functionality was implemented:
 
 Here's a walkthrough of implemented user stories:
 
-[Video Walkthrough](https://imgur.com/a/d3ce66E.gif)
+[Video Walkthrough](https://imgur.com/a/sHpU87G)
 
 
 ## Notes

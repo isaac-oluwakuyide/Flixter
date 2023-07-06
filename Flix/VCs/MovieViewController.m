@@ -42,7 +42,7 @@
     
     self.tableView.rowHeight = 150;
     [self fetchDictionary];
-    [refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
+    [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:refreshControl atIndex:0];
 }
 
@@ -75,6 +75,7 @@
 
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
     [self fetchDictionary];
+    [refreshControl endRefreshing];
 }
 
 //shows a UIActionAlert when the fetch request times out
@@ -109,7 +110,7 @@
     UITableViewCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
     
-    NSDictionary *movie = self.posts[indexPath.row];
+    NSDictionary *movie = self.filteredPosts[indexPath.row];
     long row = indexPath.row;
     
     // Get the new view controller using [segue destinationViewController].
