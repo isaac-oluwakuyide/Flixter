@@ -9,6 +9,7 @@
 #import "MovieCell.h"
 #import "UIKit+AFNetworking.h"
 #import "DetailsViewController.h"
+#import "LargePosterViewController.h"
 
 @interface MovieViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating>
 @property (strong, nonatomic) NSArray *posts;
@@ -83,12 +84,12 @@
     
     //create the "Try Again" Action
     UIAlertAction *tryAgainAction = [UIAlertAction actionWithTitle:@"Try Again"
-        style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                                             style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         // Dismiss the alert controller and retry fetching
         [alertController dismissViewControllerAnimated:YES completion:^{
             [self fetchDictionary];
-            }];
         }];
+    }];
     
     //add the try again action to the action alert
     [alertController addAction:tryAgainAction];
@@ -98,20 +99,27 @@
 }
 
 
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Pass the selected object to the new view controller.
+    
     UITableViewCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
     
     NSDictionary *movie = self.posts[indexPath.row];
-
-    // Get the new view controller using [segue destinationViewController].
-    DetailsViewController *detailsVC = [segue destinationViewController];
-    detailsVC.movie = movie;
+    long row = indexPath.row;
     
+    // Get the new view controller using [segue destinationViewController].
+    if ([segue.identifier isEqualToString:@"cellToPosterSegue"]) {
+        LargePosterViewController *largePosterVC = [segue destinationViewController];
+        largePosterVC.movie = movie;
+    }   else{
+        DetailsViewController *detailsVC = [segue destinationViewController];
+        detailsVC.movie = movie;
+    }
 }
 
 
@@ -123,9 +131,33 @@
     if (movie)  {
         //set up the imageView
         NSString *posterPath = movie[@"poster_path"];
-        NSURL *posterURL = [NSURL URLWithString:[self fetchPosterPath:posterPath]];
         
-        [movieCell.posterImageView setImageWithURL:posterURL];
+        
+        //fade in an image from the network
+        NSString *imageURLString = [NSString stringWithFormat:@"https://image.tmdb.org/t/p/w500/%@", posterPath];
+        NSURL *imageURL = [NSURL URLWithString:imageURLString];
+        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:imageURL];
+        
+        
+        
+        [movieCell.posterImageView setImageWithURLRequest:imageRequest placeholderImage:nil success:^(NSURLRequest *imageRequest, NSHTTPURLResponse *imageResponse, UIImage *image){
+            
+            // imageResponse will be nil if the image is cached
+            if (imageResponse) {
+                movieCell.posterImageView.alpha = 0.0;
+                movieCell.posterImageView.image = image;
+                
+                //Animate UIImageView back to alpha 1 over 0.3sec
+                [UIView animateWithDuration:0.3 animations:^{
+                    movieCell.posterImageView.alpha = 1.0;
+                }];
+            }
+            else{
+                movieCell.posterImageView.image = image;
+            }
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse * response, NSError *error)    {
+            NSLog(@"%@", [error localizedDescription]);
+        }];
         
         //set up the movie title and synopsis
         movieCell.movieTitleLabel.text = movie[@"title"];
@@ -133,6 +165,8 @@
     }
     return movieCell;
 }
+
+
 
 -(NSString *)fetchPosterPath:(NSString *)posterPath  {
     NSString *baseURLstring = @"https://image.tmdb.org/t/p/w500";

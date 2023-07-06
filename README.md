@@ -18,17 +18,16 @@ The following functionality was implemented:
 - User can tap a poster in the collection view to see a detail screen of that movie
 - User can search for a movie.
 - User can view a movie trailer by clicking on the movie backdrop image. 
-- [ ] All images fade in as they are loading.
-- [ ] User can view the large movie poster by tapping on a cell.
-- [ ] For the large poster, load the low resolution image first and then switch to the high resolution image when complete.
-- [ ] Run your app on a real device.
+- All images fade in as they are loading.
+- User can view the large movie poster by tapping on the detailed poster.
+- For the large poster, the low resolution image loads first and  switches to the high resolution image when complete.
 
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/a/x7gPGfD' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [Kap](https://getkap.co/).
 

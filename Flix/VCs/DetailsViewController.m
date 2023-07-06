@@ -9,6 +9,7 @@
 #import "MovieViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "TrailerViewController.h"
+#import "LargePosterViewController.h"
 
 @interface DetailsViewController ()
 
@@ -60,6 +61,10 @@
         TrailerViewController *trailerVC = [segue destinationViewController];
         trailerVC.movieID = [self.movie[@"id"] longValue];
         
+    }
+    else if ([segue.identifier isEqualToString:@"LargePosterSegue"])    {
+        LargePosterViewController *largePosterVC = [segue destinationViewController];
+        largePosterVC.movie = self.movie;
     }
 }
 
