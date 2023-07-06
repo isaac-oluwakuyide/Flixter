@@ -3,7 +3,7 @@ A movie browsing app that lets a user view and scroll through a list of movies
 
 **Flixter** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **10** hours spent in total
+Time spent: **25** hours spent in total
 
 The following functionality was implemented:
 
