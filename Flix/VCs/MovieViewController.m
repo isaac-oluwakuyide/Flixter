@@ -111,7 +111,7 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
     
     NSDictionary *movie = self.filteredPosts[indexPath.row];
-    long row = indexPath.row;
+
     
     // Get the new view controller using [segue destinationViewController].
     if ([segue.identifier isEqualToString:@"cellToPosterSegue"]) {
