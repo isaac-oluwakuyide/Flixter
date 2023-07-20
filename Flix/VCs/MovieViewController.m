@@ -40,7 +40,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    self.tableView.rowHeight = 150;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
     [self fetchDictionary];
     [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:refreshControl atIndex:0];
@@ -111,7 +111,7 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
     
     NSDictionary *movie = self.filteredPosts[indexPath.row];
-    long row = indexPath.row;
+    
     
     // Get the new view controller using [segue destinationViewController].
     if ([segue.identifier isEqualToString:@"cellToPosterSegue"]) {
