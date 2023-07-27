@@ -6,12 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Movie.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LargePosterViewController : UIViewController
 
-@property (weak, nonatomic) NSDictionary *movie;
+@property (weak, nonatomic) Movie *movie;
 @end
 
 NS_ASSUME_NONNULL_END

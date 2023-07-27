@@ -10,6 +10,7 @@
 #import "UIKit+AFNetworking.h"
 #import "DetailsViewController.h"
 #import "LargePosterViewController.h"
+#import "Movie.h"
 
 @interface MovieViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating>
 @property (strong, nonatomic) NSArray *posts;
@@ -62,7 +63,8 @@
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
             // Get the array of movies
-            self.posts = dataDictionary[@"results"];
+            NSArray *dictionaries = dataDictionary[@"results"];
+            self.posts = [Movie moviesWithDictionaries:dictionaries];
             self.filteredPosts = self.posts;
             
             // Reload your table view data
@@ -110,7 +112,7 @@
     UITableViewCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
     
-    NSDictionary *movie = self.filteredPosts[indexPath.row];
+    Movie *movie = self.filteredPosts[indexPath.row];
 
     
     // Get the new view controller using [segue destinationViewController].
@@ -127,43 +129,8 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     MovieCell *movieCell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell" forIndexPath:indexPath];
     
-    NSDictionary *movie = self.filteredPosts[indexPath.row];
-    
-    if (movie)  {
-        //set up the imageView
-        NSString *posterPath = movie[@"poster_path"];
-        
-        
-        //fade in an image from the network
-        NSString *imageURLString = [NSString stringWithFormat:@"https://image.tmdb.org/t/p/w500/%@", posterPath];
-        NSURL *imageURL = [NSURL URLWithString:imageURLString];
-        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:imageURL];
-        
-        
-        
-        [movieCell.posterImageView setImageWithURLRequest:imageRequest placeholderImage:nil success:^(NSURLRequest *imageRequest, NSHTTPURLResponse *imageResponse, UIImage *image){
-            
-            // imageResponse will be nil if the image is cached
-            if (imageResponse) {
-                movieCell.posterImageView.alpha = 0.0;
-                movieCell.posterImageView.image = image;
-                
-                //Animate UIImageView back to alpha 1 over 0.3sec
-                [UIView animateWithDuration:0.3 animations:^{
-                    movieCell.posterImageView.alpha = 1.0;
-                }];
-            }
-            else{
-                movieCell.posterImageView.image = image;
-            }
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse * response, NSError *error)    {
-            NSLog(@"%@", [error localizedDescription]);
-        }];
-        
-        //set up the movie title and synopsis
-        movieCell.movieTitleLabel.text = movie[@"title"];
-        movieCell.movieSynopsisLabel.text = movie[@"overview"];
-    }
+    movieCell.movie = self.filteredPosts[indexPath.row];
+
     return movieCell;
 }
 

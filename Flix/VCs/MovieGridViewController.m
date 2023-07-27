@@ -10,6 +10,7 @@
 #import "MovieGridCollectionCell.h"
 #import "UIKit+AFNetworking.h"
 #import "DetailsViewController.h"
+#import "Movie.h"
 
 @interface MovieGridViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -26,12 +27,7 @@
     // Do any additional setup after loading the view.
     self.movieGridCollectionView.dataSource = self;
     self.movieGridCollectionView.delegate = self;
-    
-    //set up the search bar
-    
-    
-
-    
+   
     //set up refresh control
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
@@ -61,7 +57,8 @@
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
             // Get the array of movies
-            self.posts = dataDictionary[@"results"];
+            NSArray *dictionaries = dataDictionary[@"results"];
+            self.posts = [Movie moviesWithDictionaries:dictionaries];
             
             // Reload your table view data
             [self.movieGridCollectionView reloadData];
@@ -102,7 +99,7 @@
     UICollectionViewCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.movieGridCollectionView indexPathForCell:tappedCell];
     
-    NSDictionary *movie = self.posts[indexPath.row];
+    Movie *movie = self.posts[indexPath.row];
     
     //Get the new view controller using [segue destinationViewController].
     //Pass the selected object to the new view controller.
@@ -116,12 +113,9 @@
     MovieGridCollectionCell *movieCollectionCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MovieGridCollectionCell" forIndexPath:indexPath];
     
     //fetch movie poster
-    NSDictionary *movie = self.posts[indexPath.row];
+    Movie *movie = self.posts[indexPath.row];
     if(movie)   {
-        NSString *posterPath = movie[@"poster_path"];
-        NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-        NSString *fullPosterURL = [baseURLString stringByAppendingString:posterPath];
-        [movieCollectionCell.posterImageView setImageWithURL:[NSURL URLWithString: fullPosterURL]];
+        [movieCollectionCell.posterImageView setImageWithURL:movie.posterURL];
     }
 
     //set image size

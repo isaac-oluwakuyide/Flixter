@@ -26,20 +26,12 @@
 
 - (void)fetchMovieInfo  {
     //fetch the backdrop, poster URL links
-    NSString *baseURLstring = @"https://image.tmdb.org/t/p/w500";
-    
-    NSString *backdropURLString = self.movie[@"backdrop_path"];
-    NSString *posterURLString = self.movie[@"poster_path"];
-    
-    NSURL *backdropURL = [NSURL URLWithString:[baseURLstring stringByAppendingString:backdropURLString]];
-    NSURL *posterURL = [NSURL URLWithString:[baseURLstring stringByAppendingString:posterURLString]];
-    
-    [self.posterImageView setImageWithURL:posterURL];
-    [self.backdropImageView setImageWithURL:backdropURL];
+    [self.posterImageView setImageWithURL:self.movie.posterURL];
+    [self.backdropImageView setImageWithURL:self.movie.backdropURL];
     
     //fetch the movie title and movie description
-    self.titleLabel.text = self.movie[@"original_title"];
-    self.synopsisLabel.text = self.movie[@"overview"];
+    self.titleLabel.text = self.movie.title;
+    self.synopsisLabel.text = self.movie.overview;
     
     [self.titleLabel sizeToFit];
     [self.synopsisLabel sizeToFit];
@@ -59,7 +51,7 @@
     
     if ([segue.identifier isEqualToString:@"trailerSegue"]) {
         TrailerViewController *trailerVC = [segue destinationViewController];
-        trailerVC.movieID = [self.movie[@"id"] longValue];
+        trailerVC.movieID = self.movie.movie_ID;
         
     }
     else if ([segue.identifier isEqualToString:@"LargePosterSegue"])    {

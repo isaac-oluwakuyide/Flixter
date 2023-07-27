@@ -22,14 +22,10 @@
 }
 
 - (void) fetchImages    {
-    //load the low res before the high res video
-    NSString *urlSmallString = [NSString stringWithFormat:@"https://image.tmdb.org/t/p/w45%@", self.movie[@"poster_path"]];
-    NSString *urlLargeString = [NSString stringWithFormat:@"https://image.tmdb.org/t/p/original%@", self.movie[@"poster_path"]];
-    NSURL *smallURL = [NSURL URLWithString:urlSmallString];
-    NSURL *largeURL = [NSURL URLWithString:urlLargeString];
-    
-    NSURLRequest *smallRequest = [NSURLRequest requestWithURL:smallURL];
-    NSURLRequest *largeRequest = [NSURLRequest requestWithURL:largeURL];
+    //load the low res before the high res image
+
+    NSURLRequest *smallRequest = [NSURLRequest requestWithURL:self.movie.smallURL];
+    NSURLRequest *largeRequest = [NSURLRequest requestWithURL:self.movie.largeURL];
     
     
     [self.largeImageView setImageWithURLRequest:smallRequest
