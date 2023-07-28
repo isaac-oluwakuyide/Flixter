@@ -11,6 +11,7 @@
 #import "UIKit+AFNetworking.h"
 #import "DetailsViewController.h"
 #import "Movie.h"
+#import "MovieAPIManager.h"
 
 @interface MovieGridViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -43,29 +44,21 @@
 - (void) fetchDictionary{
     //API call
     [self.activityIndicator startAnimating];
-    NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=d20eedb54811a1d5dbd0291f9af7e839"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10.0];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    MovieAPIManager *manager = [MovieAPIManager new];
+    [manager fetchNowPlaying:^(NSArray *movies, NSError *error) {
         if (error != nil)   {
             [self.activityIndicator stopAnimating];
             NSLog(@"%@", [error localizedDescription]);
             [self showAlert];
         }
         else    {
-            
-            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            
-            // Get the array of movies
-            NSArray *dictionaries = dataDictionary[@"results"];
-            self.posts = [Movie moviesWithDictionaries:dictionaries];
-            
-            // Reload your table view data
+            self.posts = movies;
             [self.movieGridCollectionView reloadData];
         }
     }];
+    
+    
     [self.activityIndicator stopAnimating];
-    [task resume];
 }
 
 //shows a UIActionAlert when the fetch request times out

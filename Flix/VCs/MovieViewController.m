@@ -11,6 +11,7 @@
 #import "DetailsViewController.h"
 #import "LargePosterViewController.h"
 #import "Movie.h"
+#import "MovieAPIManager.h"
 
 @interface MovieViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating>
 @property (strong, nonatomic) NSArray *posts;
@@ -50,29 +51,22 @@
 - (void) fetchDictionary{
     //API call
     [self.activityIndicator startAnimating];
-    NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=d20eedb54811a1d5dbd0291f9af7e839"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10.0];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    MovieAPIManager *manager = [MovieAPIManager new];
+    [manager fetchNowPlaying:^(NSArray *movies, NSError *error) {
         if (error != nil)   {
             [self.activityIndicator stopAnimating];
             NSLog(@"%@", [error localizedDescription]);
             [self showAlert];
         }
-        else    {
-            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            
-            // Get the array of movies
-            NSArray *dictionaries = dataDictionary[@"results"];
-            self.posts = [Movie moviesWithDictionaries:dictionaries];
+        else{
+            self.posts = movies;
             self.filteredPosts = self.posts;
             
-            // Reload your table view data
+            //reload the table view data
             [self.tableView reloadData];
         }
     }];
     [self.activityIndicator stopAnimating];
-    [task resume];
 }
 
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
@@ -132,13 +126,6 @@
     movieCell.movie = self.filteredPosts[indexPath.row];
 
     return movieCell;
-}
-
-
-
--(NSString *)fetchPosterPath:(NSString *)posterPath  {
-    NSString *baseURLstring = @"https://image.tmdb.org/t/p/w500";
-    return [baseURLstring stringByAppendingString:posterPath];
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
